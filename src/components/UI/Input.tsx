@@ -10,7 +10,7 @@ type Props = {
 export const Input = (props: Props) => {
     return (
         <input
-            className="border rounded-md p-1 px-2 focus:outline-lime-400 text-blue-950"
+            className=" border border-blue-950  p-1 px-2 focus:outline-lime-400 text-blue-950"
             value={props.value}
             onChange={props.onChange}
             type={props.type}

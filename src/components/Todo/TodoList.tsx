@@ -9,9 +9,9 @@ const TodoList = () => {
     const todos = useSelector((state: ITodoState) => state.todos);
 
     return (
-        <ul>
-            {todos.map((e, i) => (
-                <TodoListItem key={i} todoDetails={e} />
+        <ul className="grid grid-cols-2 gap-2">
+            {todos.map((e) => (
+                <TodoListItem key={e.id} todoDetails={e} />
             ))}
         </ul>
     );

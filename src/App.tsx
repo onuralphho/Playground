@@ -48,7 +48,7 @@ function App() {
                     </Button>
                 </div>
             </Card>
-            <div>
+            <div className="flex flex-col gap-2">
                 <TodoForm />
                 <TodoList />
             </div>
