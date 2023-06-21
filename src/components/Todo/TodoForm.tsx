@@ -1,56 +1,94 @@
-import { useState } from "react";
-import { Input } from "../UI/Input";
-import { FormButton } from "../UI/FormButton";
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from "formik";
+import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { addTodo } from "../../stores/todoSlice";
+import { FormButton } from "../UI/FormButton";
 import { v4 as uuidv4 } from "uuid";
 
 interface ITodoState {
 	todos: ITodo[];
 }
 
-const TodoForm = () => {
-	const [titleInput, setTitleInput] = useState<string>("");
-	const [descriptionInput, setDescriptionInput] = useState<string>("");
+interface IFormValues {
+	title: string;
+	description: string;
+}
 
+const TodoForm = () => {
 	const dispatch = useDispatch();
 	const todos = useSelector((state: ITodoState) => state.todos);
 
+	const initialValues = {
+		title: "",
+		description: "",
+	} as IFormValues;
+
+	const handleSubmit = (
+		values: IFormValues,
+		formikHelpers: FormikHelpers<IFormValues>
+	) => {
+		dispatch(
+			addTodo({
+				id: uuidv4(),
+				title: values.title,
+				description: values.description,
+				isDone: false,
+			})
+		);
+		formikHelpers.resetForm();
+	};
+
+	const validateSchema = Yup.object({
+		title: Yup.string().required("Name is required"),
+		description: Yup.string().required("Description is required"),
+	});
+
 	return (
 		<div className="flex gap-2 border border-blue-950 text-blue-950 p-2">
-			<Input
-				type="string"
-				onChange={(e) => {
-					setTitleInput(e.target.value);
-				}}
-				value={titleInput}
-				placeholder="Title"
-			/>
-			<Input
-				type="string"
-				onChange={(e) => {
-					setDescriptionInput(e.target.value);
-				}}
-				value={descriptionInput}
-				placeholder="Description"
-			/>
-			<FormButton
-				onClick={() => {
-					dispatch(
-						addTodo({
-							id: uuidv4(),
-							title: titleInput,
-							description: descriptionInput,
-                            isDone:false
-						})
-					);
-				}}>
-				Save
-			</FormButton>
+			<Formik
+				initialValues={initialValues}
+				onSubmit={handleSubmit}
+				validationSchema={validateSchema}>
+				<Form className="flex gap-2">
+					<div className="flex flex-col gap-1">
+						<Field
+							type="text"
+							name="title"
+							placeholder="Title"
+							className="input p-1 border border-blue-950"
+						/>
+						<ErrorMessage
+							name="title"
+							component="span"
+							className="error text-red-500"
+						/>
+					</div>
+
+					<div className="flex flex-col gap-1">
+						<Field
+							type="text"
+							name="description"
+							placeholder="Description"
+							className="input p-1 border border-blue-950"
+						/>
+						<ErrorMessage
+							name="description"
+							component="span"
+							className="error text-red-500"
+						/>
+					</div>
+
+					<FormButton type="submit" className="button h-max">
+						Save
+					</FormButton>
+				</Form>
+			</Formik>
+
 			<FormButton
 				onClick={() => {
 					console.log(todos);
-				}}>
+				}}
+				className="button h-max">
 				Log the list
 			</FormButton>
 		</div>

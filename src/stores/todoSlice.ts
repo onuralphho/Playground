@@ -42,12 +42,13 @@ export const todoSlice = createSlice({
 			}
 		},
 		removeTodo: (state, action: { payload: string }) => {
-			state.filter((todo) => todo.id !== action.payload);
-			saveStateToLocalStorage(state);
+			const filteredTodos = state.filter((todo) => todo.id !== action.payload);
+			saveStateToLocalStorage(filteredTodos);
+			return filteredTodos;
 		},
 	},
 });
 
-export const { addTodo, completeTodo } = todoSlice.actions;
+export const { addTodo, completeTodo, removeTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;
