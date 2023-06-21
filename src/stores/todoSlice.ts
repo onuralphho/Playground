@@ -46,9 +46,21 @@ export const todoSlice = createSlice({
 			saveStateToLocalStorage(filteredTodos);
 			return filteredTodos;
 		},
+		changeStatus: (
+			state,
+			action: { payload: { id: string; status: StatusTypes } }
+		) => {
+			const todo = state.find((todo) => todo.id === action.payload.id);
+
+			if (todo) {
+				todo.status = action.payload.status;
+				saveStateToLocalStorage(state);
+			}
+		},
 	},
 });
 
-export const { addTodo, completeTodo, removeTodo } = todoSlice.actions;
+export const { addTodo, completeTodo, removeTodo, changeStatus } =
+	todoSlice.actions;
 
 export default todoSlice.reducer;

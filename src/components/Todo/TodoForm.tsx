@@ -33,6 +33,7 @@ const TodoForm = () => {
 				title: values.title,
 				description: values.description,
 				isDone: false,
+				status: "todo",
 			})
 		);
 		formikHelpers.resetForm();
