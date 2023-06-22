@@ -5,25 +5,22 @@ const saveStateToLocalStorage = (state: ITodo[]) => {
 	try {
 		const serializedState = JSON.stringify(state);
 		localStorage.setItem("todos", serializedState);
-	} catch (error) {
-		// Hata durumunda hata yönetimini burada yapabilirsiniz
-	}
+	} catch (error) {}
 };
 
-// Redux store'dan verileri localStorage'den geri almak için bir yardımcı fonksiyon
 const loadStateFromLocalStorage = () => {
 	try {
 		const serializedState = localStorage.getItem("todos");
 		if (serializedState === null) {
-			return undefined; // Eğer localStorage'de veri yoksa undefined döndür
+			localStorage.setItem("todos", JSON.stringify([] as ITodo[]));
+			return;
 		}
 		return JSON.parse(serializedState);
 	} catch (error) {
-		return undefined; // Hata durumunda undefined döndür
+		return undefined;
 	}
 };
 
-// Redux store'unun başlangıç durumu (initialState) yerine localStorage'den verileri al
 const persistedState = loadStateFromLocalStorage() as ITodo[];
 
 export const todoSlice = createSlice({
