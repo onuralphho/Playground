@@ -54,10 +54,21 @@ export const todoSlice = createSlice({
 				saveStateToLocalStorage(state);
 			}
 		},
+		changePosition: (
+			state,
+			action: { payload: { id: string; position: PositionTypes } }
+		) => {
+			const todo = state.find((todo) => todo.id === action.payload.id);
+
+			if (todo) {
+				todo.position = action.payload.position;
+				saveStateToLocalStorage(state);
+			}
+		},
 	},
 });
 
-export const { addTodo, completeTodo, removeTodo, changeStatus } =
+export const { addTodo, completeTodo, removeTodo, changeStatus,changePosition } =
 	todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -34,6 +34,7 @@ const TodoForm = () => {
 				description: values.description,
 				isDone: false,
 				status: "todo",
+				position:"backlog"
 			})
 		);
 		formikHelpers.resetForm();
@@ -45,18 +46,18 @@ const TodoForm = () => {
 	});
 
 	return (
-		<div className="flex gap-2 border border-blue-950 text-blue-950 p-2">
+		<div className="flex  gap-2 border border-blue-950 text-blue-950 p-2">
 			<Formik
 				initialValues={initialValues}
 				onSubmit={handleSubmit}
 				validationSchema={validateSchema}>
-				<Form className="flex gap-2">
-					<div className="flex flex-col gap-1">
+				<Form className="flex w-full max-md:flex-col gap-2 flex-wrap">
+					<div className="flex flex-col  gap-1">
 						<Field
 							type="text"
 							name="title"
 							placeholder="Title"
-							className="input p-1 border border-blue-950"
+							className=" p-1 border border-blue-950"
 						/>
 						<ErrorMessage
 							name="title"
@@ -65,21 +66,21 @@ const TodoForm = () => {
 						/>
 					</div>
 
-					<div className="flex flex-col gap-1">
+					<div className="flex flex-col flex-1 gap-1">
 						<Field
 							type="text"
 							name="description"
 							placeholder="Description"
-							className="input p-1 border border-blue-950"
+							className=" p-1 border border-blue-950"
 						/>
 						<ErrorMessage
 							name="description"
 							component="span"
-							className="error text-red-500"
+							className=" text-red-500"
 						/>
 					</div>
 
-					<FormButton type="submit" className="button h-max">
+					<FormButton type="submit" className=" h-max">
 						Save
 					</FormButton>
 				</Form>
@@ -89,7 +90,7 @@ const TodoForm = () => {
 				onClick={() => {
 					console.log(todos);
 				}}
-				className="button h-max">
+				className="button h-max absolute top-0 right-0">
 				Log the list
 			</FormButton>
 		</div>
